@@ -30,3 +30,38 @@ License, which requires the source to be kept open. We discourage
 corporate uses of BikeHopper, but highly encourage self-hosted,
 community instances in other regions. Get in touch if you'd like us to
 help you be the first region beyond the Bay Area to set one up.
+
+## Getting Started With the BikeHopper UI
+
+[BikeHopper UI](https://github.com/bikehopper/bikehopper-ui) uses [Vite](https://vitejs.dev/) as its build system and
+for running a dev server. To get started clone this repo,
+copy the `.env.development.template` to `.env.development.local` and put in a
+Mapbox token you create (free plan is fine), run `npm install`, then run `npm start`.
+
+Requests to `localhost` are proxied to
+`https://api-staging.bikehopper.org`. This is configured by a "proxy"
+property within `vite.config.json`. Presently there is a thin client
+library at `src/lib/BikeHopperClient.ts`. More methods should be added
+as needed. This library calls the BikeHopper
+[backend](https://github.com/bikehopper/bikehopper-web-app).
+
+To expose your dev server to your local network (so you can access it
+from your phone), run `npx vite --host`.
+
+If you are running local graphhopper (see below), Edit the relevant variable in your `.env.development.local` in `bikehopper-ui` to point to local GraphHopper.
+
+## Configuring local GraphHopper
+
+If you're actively making changes to [our fork of GraphHopper](https://github.com/bikehopper/graphhopper), follow these steps.
+
+1. You'll need a local OSM cutout for Northern California.
+
+   ```sh
+   wget http://download.geofabrik.de/north-america/us/california/norcal-latest.osm.pbf
+   ```
+
+   Place the OSM cutout at `graphhopper/data/norcal-latest.osm.pbf`.
+
+2. You'll also need GTFS data. Follow steps on this page, under "To Use the Feed and Ask Questions": https://www.interline.io/blog/mtc-regional-gtfs-feed-release/
+
+   Place the GTFS zip file at `graphhopper/data/GTFSTransitData_RG.zip`.
